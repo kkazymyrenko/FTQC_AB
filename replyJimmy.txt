@@ -11,7 +11,7 @@ Ku=f, where
 K =alpha*K/dx/dy + penalization*Id
 f =  flux_value/dx (applied only on the subdomain of the size penalization)
 In this case the linear system scales well (converge to the continuous solution) with discretization dx, dy.
-The parameters set giving not trivial solution was (see Fig. with profile in temperature):
+The parameters set giving not trivial solution was:
 alpha = 1
 penalization = 0.1*9/4 
 flux_value = 3/np.sqrt(2)/4
