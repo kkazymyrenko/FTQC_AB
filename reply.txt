@@ -1,0 +1,34 @@
+Reply to Jimmy
+
+if I summerize what I can see from your scipts, 
+you are using finite difference discretization scheme, as it could be seen from your stiffness matrix definition, where you use "alpha" as scalar multiplicator parameter (a kind of amplitude of heat transmission)
+external flux force is defined of the fraction of one of external edge using "percentage" parameter, the amplitude of the force is given by "force_value"
+your external force is normalized to one
+stiffness matrix is penalized with "penalization" parameter
+
+What are the inititial data set we were using. We are solving
+Ku=f, where
+K =alpha*K/dx/dy + penalization*Id
+f =  flux_value/dx (applied only on the subdomain of the size penalization)
+In this case the linear system scales well (converge to the continuous solution) with discretization dx, dy.
+The parameters set giving not trivial solution was (see Fig. with profile in temperature):
+alpha = 1
+penalization = 0.1*9/4 
+flux_value = 3/np.sqrt(2)/4
+percentage = 0.5
+
+To be honest this strange values are results of the backcompatibilities of our results, so one could take easily the following values and get very similar results :
+alpha = 1
+penalization = 0.25
+flux_value = 0.5
+percentage = 0.5
+
+#####################
+With the current data input the ratio of maximal to minimal values of temperature is 1.2, this ratio is independent of the flux_value and could be probed in quantum solution.
+If you increase penalization to the values >>alpha, let's say penalization = 100, then your solution is almost u = f (you are not exploring the heat propagation at all).
+So I suggest:
+ explore the ratio of alpha/penalization from 10 to 0.1; for alpha/penalization = 10 the max_temp/min_temp = 1.1; for alpha/penalization = 0.1 the max_temp/min_temp= 30
+do not vary to much percentage from 0.5, the point is that if you are using not commensurate values (not 0.25, 0.5 or 0.75 etc), then you would get a jump during discretization process for small size systems. I suggest to have only 0.25;0.5;0.75
+
+I hope it is clear, if not it is better to have a call.
+For the tridiagonal systems, the point is that our system is not pretty tridiagonal, as each node has  4 neighbours with non-zero overlap leading to 5 non-zero terms per line, if we decompose the full matrix into tridiagonal + perturbation, the perturbation is of the same order of magnitude as the tridiagonal matrix itself. Quantum solution for tridiagonal (or Toeplitz like) matrices is put forward in block-encoding for FTQC algorithms, but have no advantage in additive encoding that we are using.

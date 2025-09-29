@@ -90,8 +90,8 @@ def flux(Nx, Ny, prc, flux_bc, FE = False):
 
 
 ## QUANTUM PARAMETERS
-nx = 5                            # number of qubits on x axis
-ny = 4                            # number of qubits on y axis
+nx = 6                            # number of qubits on x axis
+ny = 6                            # number of qubits on y axis
 nqb = nx + ny                     # number of qubits for circuits
 FE = False
 
@@ -117,7 +117,7 @@ dy = Ly / (Ny-1.)
 
 
 ## STIFFNESS MATRIX
-alpha = 1.0  # Thermal diffusivity
+alpha = 1  # Thermal diffusivity
 pen = 0.1*9/4 # to get the same result as for 4 qbits simulation before
 print("Calculating Rigidity Matrix")
 tt0 = time.time()
